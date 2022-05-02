@@ -1,0 +1,83 @@
+<div class="bg-dark">
+    <div class="container">
+        <h1 class="text-light">
+            List of Pokémons
+            <img class="animate__animated animate__wobble animate_delay-3s" src="../assets/Snorlax.png" alt="Snorlax" />
+        </h1>
+    </div>
+
+    <div class="container bg-dark">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pokemon of pokemons">
+                    <td class="col-6 fw-bold">
+                        {{ pokemon.name | titlecase }}
+                    </td>
+                    <td>
+                        <a class="btn btn-danger rounded-pill" (click)="open(content, pokemon.url)">
+              More info <i class="fa fa-solid fa-plus"></i>
+            </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <nav class="bg-dark">
+            <ul class="pagination p-2 justify-content-center">
+                <li class="page-item">
+                    <button [ngClass]="{ disabled: !previousValue }" class="btn btn-secondary m-2" (click)="getNextOrPrevious(previousValue, 'prev')">
+            Previous
+          </button>
+                </li>
+                <li class="page-item pt-3">
+                    <span class="text-light"> {{ counter }} of {{ total }}</span>
+                </li>
+                <li class="page-item">
+                    <button [ngClass]="{ disabled: !nextValue }" class="btn btn-secondary m-2" (click)="getNextOrPrevious(nextValue, 'next')">
+            Next
+          </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="bg-dark modal-header">
+        <h3 class="modal-title">{{ selectedPokemon.name | titlecase }}</h3>
+        <img class="ms-2" [src]="selectedPokemon.sprites.front_default" width="100px" />
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="bg-dark modal-body">
+        <h6><span> Pokemon ID: </span> {{ selectedPokemon.id }}</h6>
+        <div>
+            <h5 class="text-decoration-underline">Stats</h5>
+            <span class="fw-bold">Height:</span>
+            <span> {{ selectedPokemon.height }} </span> <br />
+            <span class="fw-bold">Weight: </span>
+            <span>{{ selectedPokemon.weight }} </span>
+        </div>
+        <div>
+            <span class="fw-bold">Type: </span
+      ><span> {{ selectedPokemon.types[0].type.name | titlecase }}</span>
+        </div>
+        <div>
+            <span class="fw-bold">Some moves: </span>
+            <ul>
+                <li>{{ selectedPokemon.moves[0].move.name | uppercase }}</li>
+                <li>{{ selectedPokemon.moves[1].move.name | uppercase }}</li>
+                <li>{{ selectedPokemon.moves[2].move.name | uppercase }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="bg-dark modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">
+      Close
+    </button>
+    </div>
+</ng-template>

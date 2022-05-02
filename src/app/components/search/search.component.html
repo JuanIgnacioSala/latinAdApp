@@ -1,0 +1,75 @@
+<div class="mt-4 container">
+    <div class="text-center">
+        <img class="animate__animated animate__flip animate__slow" src="assets/pokemon-logo.png" alt="" width="300px" />
+    </div>
+    <div class="mb-4">
+        <h3 class="">Search your favourite:</h3>
+    </div>
+    <div class="input-group mb-5">
+        <input #pokemonName type="text" class="form-control" placeholder="Insert pokemon name here.." aria-label="Pokemon name" id="pokemonName" autocomplete="off" (keyup.enter)="open(content, pokemonName.value)" />
+        <button (click)="open(content, pokemonName.value)" class="btn btn-outline-danger" type="button" id="button-addon2">
+      Search <i class="fa fa-search" aria-hidden="true"></i>
+    </button>
+    </div>
+</div>
+
+<div class="mb-4 text-center">
+    <a routerLink="/list" class="btn btn-danger">
+    Go to list <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+  </a>
+</div>
+
+<ng-template #content let-modal>
+    <div *ngIf="modalEnable">
+        <div class="bg-dark modal-header">
+            <h3 class="modal-title">{{ selectedPokemon.name | titlecase }}</h3>
+            <img class="ms-2" [src]="selectedPokemon.sprites.front_default" width="100px" />
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="bg-dark modal-body">
+            <h6><span> Pokemon ID: </span> {{ selectedPokemon.id }}</h6>
+            <div>
+                <h5 class="text-decoration-underline">Stats</h5>
+                <span class="fw-bold">Height:</span>
+                <span> {{ selectedPokemon.height }} </span> <br />
+                <span class="fw-bold">Weight: </span>
+                <span>{{ selectedPokemon.weight }} </span>
+            </div>
+            <div>
+                <span class="fw-bold">Type: </span
+        ><span> {{ selectedPokemon.types[0].type.name | titlecase }}</span>
+            </div>
+            <div>
+                <span class="fw-bold">Some moves: </span>
+                <ul>
+                    <li>{{ selectedPokemon.moves[0].move.name | uppercase }}</li>
+                    <li>{{ selectedPokemon.moves[1].move.name | uppercase }}</li>
+                    <li>{{ selectedPokemon.moves[2].move.name | uppercase }}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="bg-dark modal-footer">
+            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">
+        Close
+      </button>
+        </div>
+    </div>
+
+    <div *ngIf="modalError" class="bg-dark">
+        <div class="modal-header">
+            <h4 class="text-danger modal-title">ERROR</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                Your pokemon couldn't be found
+                <i class="text-danger fa fa-exclamation-circle" aria-hidden="true"></i>
+            </h4>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">
+        Close
+      </button>
+        </div>
+    </div>
+</ng-template>
